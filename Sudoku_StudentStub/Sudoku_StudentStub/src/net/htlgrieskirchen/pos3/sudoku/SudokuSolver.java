@@ -17,19 +17,19 @@ public class SudokuSolver implements ISodukoSolver {
 
     @Override
     public final int[][] readSudoku(File file) {
-          int [] [] array = new int [9][9];
+        int[][] array = new int[9][9];
         try {
             array = Files.lines(file.toPath())
                     .map(s -> s.split(";"))
                     .map(a -> new int[]{Integer.parseInt(a[0]),
-                        Integer.parseInt(a[1]),
-                        Integer.parseInt(a[2]),
-                        Integer.parseInt(a[3]),
-                        Integer.parseInt(a[4]),
-                        Integer.parseInt(a[5]),
-                        Integer.parseInt(a[6]),
-                        Integer.parseInt(a[7]),
-                        Integer.parseInt(a[8])})
+                Integer.parseInt(a[1]),
+                Integer.parseInt(a[2]),
+                Integer.parseInt(a[3]),
+                Integer.parseInt(a[4]),
+                Integer.parseInt(a[5]),
+                Integer.parseInt(a[6]),
+                Integer.parseInt(a[7]),
+                Integer.parseInt(a[8])})
                     .toArray(int[][]::new);
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,8 +39,42 @@ public class SudokuSolver implements ISodukoSolver {
 
     @Override
     public boolean checkSudoku(int[][] rawSudoku) {
-        // implement this method
-        return false; // delete this line!
+// row checker
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 8; col++) {
+                for (int col2 = col + 1; col2 < 9; col2++) {
+                    if (rawSudoku[row][col] == rawSudoku[row][col2]) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+// column checker
+        for (int col = 0; col < 9; col++) {
+            for (int row = 0; row < 8; row++) {
+                for (int row2 = row + 1; row2 < 9; row2++) {
+                    if (rawSudoku[row][col] == rawSudoku[row2][col]) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+// grid checker
+        for (int row = 0; row < 9; row += 3) {
+            for (int col = 0; col < 9; col += 3) // row, col is start of the 3 by 3 grid
+            {
+                for (int pos = 0; pos < 8; pos++) {
+                    for (int pos2 = pos + 1; pos2 < 9; pos2++) {
+                        if (rawSudoku[row + pos % 3][col + pos / 3] == rawSudoku[row + pos2 % 3][col + pos2 / 3]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     @Override
