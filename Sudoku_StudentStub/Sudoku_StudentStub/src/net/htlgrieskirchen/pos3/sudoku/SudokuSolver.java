@@ -67,7 +67,7 @@ public class SudokuSolver implements ISodukoSolver {
             {
                 for (int pos = 0; pos < 8; pos++) {
                     for (int pos2 = pos + 1; pos2 < 9; pos2++) {
-                        if (rawSudoku[row + pos % 3][col + pos / 3] == rawSudoku[row + pos2 % 3][col + pos2 / 3]) {
+                        if (rawSudoku[row + pos % 3][col + pos /3] == rawSudoku[row + pos2 % 3][col + pos2 / 3]) {
                             return false;
                         }
                     }
@@ -79,6 +79,8 @@ public class SudokuSolver implements ISodukoSolver {
 
     @Override
     public int[][] solveSudoku(int[][] rawSudoku) {
+        
+
         // implement this method
         return new int[0][0]; // delete this line!
     }
